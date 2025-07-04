@@ -1,0 +1,32 @@
+.gallery img{
+        width: 100%;
+ }
+ .gallery img:hover{
+        background: #f30303;
+        width:99%;
+        
+        
+       box-shadow: 10px 10px 10px #0004ff59;
+       
+        
+ }
+ #menu{
+      width:100%;
+      height:40px;
+      background-color: cornflowerblue;
+      padding-top: 12px;
+}
+#menu a{
+      color:#ffffff;
+      font-family: Helvetica, sans-serif;
+      font-size: 18px;
+      text-decoration:none;
+      font-weight: 800px;
+      padding-top: 20px !important;
+      padding-left: 20px;
+      padding-right: 20px;
+}
+#menu a:hover{
+       color: #5077bd;
+}
+

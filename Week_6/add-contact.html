@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Contact</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style_edit.css" />
+  <style>
+   
+  </style>
+</head>
+<body>
+  <header class="header-bar">
+  <div class="header-title">📇 Contact Book</div>
+  <button id="homeLink" title="Home" aria-label="Home">
+    <i class="fa fa-home"></i>
+  </button>
+</header>
+
+
+
+  <form id="editForm" class="form-container" enctype="multipart/form-data" autocomplete="off" novalidate>
+    <label for="firstname">First Name</label>
+    <input type="text" name="firstname" id="firstname" required />
+
+    <label for="lastname">Last Name</label>
+    <input type="text" name="lastname" id="lastname" required />
+
+    <label for="mobile">Mobile</label>
+    <input type="text" name="mobile" id="mobile" pattern="\d{10}" maxlength="10" minlength="10" required 
+       title="Please enter exactly 10 digits">
+
+    <label for="email">Email</label>
+    <input type="text" name="email" id="email" />
+
+    <label for="file">Avatar</label>
+    <input type="file" name="avatar" id="avatar"/>
+
+    <button type="submit" id="submitForm">Submit</button>
+  </form>
+
+  <script src="config.js"></script>
+  <script>
+    document.getElementById("submitForm").addEventListener("click", submitForm);
+    document.getElementById("homeLink").addEventListener("click", homeLink);
+
+    function submitForm(e) {
+      e.preventDefault();
+
+      const form = new FormData(document.querySelector("#editForm"));
+      form.append("apiKey", apiKey);
+
+      fetch(rootPath + "controller/insert-contact/", {
+        method: "POST",
+        headers: { Accept: "application/json, *.*" },
+        body: form,
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          if (data == 1) {
+            alert("Contact added");
+            homeLink();
+          } else {
+            alert(data);
+            homeLink();
+          }
+        });
+    }
+
+    function homeLink() {
+      window.open("index.html", "_self");
+    }
+
+    // Apply dark mode if saved
+    if (localStorage.getItem("darkMode") === "true") {
+      document.body.classList.add("dark-mode");
+    }
+    document.getElementById("mobile").addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, '').slice(0, 10); // only digits, max 10
+});
+
+  </script>
+</body>
+</html>

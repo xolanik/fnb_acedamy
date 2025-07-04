@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="login-container ">
+        <h2>Login</h2>
+        <input type="text" id="usernameInput" placeholder="Username" >
+        <input type="password" id="passwordInput" placeholder="Password" >
+        <button type="button" onclick="verifyUser()">Login</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        function verifyUser() {
+            var username = document.getElementById("usernameInput").value.trim();
+            var password = document.getElementById("passwordInput").value.trim();
+
+            if (username === "" && password === "") {
+                document.getElementById("message").innerHTML = "⚠️ Please fill up the form fields.";
+                return;
+            }
+
+            if (username === "") {
+                document.getElementById("message").innerHTML = "⚠️ Please fill up the username.";
+                return;
+            }
+
+            if (password === "") {
+                document.getElementById("message").innerHTML = "⚠️ Please fill up the password.";
+                return;
+            }
+
+            checkUserCreds(username, password);
+        }
+
+        function checkUserCreds(username, password) {
+            var systemUsername = "Xolani";
+            var systemPassword = "e87";
+
+            if (username === systemUsername && password === systemPassword) {
+                document.getElementById("message").style.color = "green";
+                document.getElementById("message").innerHTML = "✅ Correct. Logging you in...";
+            } else {
+                document.getElementById("message").style.color = "red";
+                document.getElementById("message").innerHTML = "❌ Incorrect username or password.";
+            }
+        }
+    </script>
+
+</body>
+
+</html>

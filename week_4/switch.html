@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+   
+</head>
+
+<body style="margin:auto o">
+  <div class="app-container">
+    <label for="weather"> <b>What's the weather like ?</b> </label><br/>
+    <select id="weather">
+  <option value="sunny">☀️ Sunny</option>
+  <option value="windy">🌬️ Windy</option>
+  <option value="rainy">🌧️ Rainy</option>
+  <option value="snowy">❄️ Snowy</option>
+  <option value="cloudy">☁️ Cloudy</option>
+</select>
+
+<br/>
+<br/>
+    <a href="#" class="btn" onclick="btnPressed()">GO!</a>
+    <p id="outputText">Weather advice : </p>
+   </div>   
+  <script>
+    function btnPressed(){
+      var weatherSelected = document.getElementById("weather").value;
+      var advice;
+
+      switch(weatherSelected){
+        case "sunny": 
+          advice = "Wear your sunglasses <br/><br/><img src='Images/sunny.gif' class='borderimg'>";
+          break;
+        case "rainy": 
+          advice = "Wear a rain coat and carry an umbrella <br/><br/><img src='Images/rain.gif' class='borderimg'>";
+          break;
+        case "snowy": 
+          advice = "Dress warmly <br/><br/><img class='borderimg' src='Images/snow.gif' >";
+          break;
+        case "cloudy": 
+          advice = "Carry a jacket it might rain  <br/><br/><img src='Images/cloud.gif' class='borderimg'>";
+          break;
+        case "windy": 
+          advice = "Hold onto your hat! <br/><br/><img class='borderimg' src='Images/Wind Conan Obrien GIF by Team Coco.gif' >";
+          break;
+
+      }
+      document.getElementById("outputText").innerHTML = "Weather advice: " +advice;
+    }
+  </script> 
+  
+ </body>
+</html>

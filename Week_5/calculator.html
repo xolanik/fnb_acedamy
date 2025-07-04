@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mobile Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="inputBox" value="0" readonly >
+    
+    <div class="mode-toggle">
+      <label><input type="radio" name="mode" onclick="toggleScientific(true)"> Scientific</label>
+      <label><input type="radio" name="mode" onclick="toggleScientific(false)" checked> Basic</label>
+    </div>
+
+    <div class="scientific-grid" id="scientificRow" style="display:none;">
+      <button onclick="applyFunction('sqrt')">√</button>
+      <button onclick="applyFunction('sin')">sin</button>
+      <button onclick="applyFunction('cos')">cos</button>
+      <button onclick="applyFunction('tan')">tan</button>
+      <button onclick="applyFunction('log')">log</button>
+      <button onclick="applyFunction('ln')">ln</button>
+    </div><hr/>
+    <div class="button-grid">
+      <!-- Digit and operator buttons -->
+      <button onclick="digitBtnPressed('7')">7</button>
+      <button onclick="digitBtnPressed('8')">8</button>
+      <button onclick="digitBtnPressed('9')">9</button>
+      <button onclick="operatorBtnPressed('/')">÷</button>
+
+      <button onclick="digitBtnPressed('4')">4</button>
+      <button onclick="digitBtnPressed('5')">5</button>
+      <button onclick="digitBtnPressed('6')">6</button>
+      <button onclick="operatorBtnPressed('*')">×</button>
+
+      <button onclick="digitBtnPressed('1')">1</button>
+      <button onclick="digitBtnPressed('2')">2</button>
+      <button onclick="digitBtnPressed('3')">3</button>
+      <button onclick="operatorBtnPressed('-')">−</button>
+
+      <button onclick="digitBtnPressed('0')">0</button>
+      <button onclick="backspacePressed()">⌫</button>
+      <button onclick="btnACPressed()">AC</button>
+      <button onclick="operatorBtnPressed('+')">+</button>
+
+      
+
+      <button onclick="digitBtnPressed('.')">.</button>
+      <button data-value="("  onclick="handleButtonClick(this)">(</button>
+      <button data-value=")" onclick="handleButtonClick(this)">)</button>
+      <button class="equal-btn" onclick="equalsBtnPressed()">=</button>
+    </div>
+
+    
+  </div>
+
+  <script>
+                let inputBox = document.getElementById("inputBox");
+                let expression = "";
+
+                function digitBtnPressed(val) {
+                    if (inputBox.value === "0" || inputBox.value === "Error") {
+                    expression = val.toString();
+                    } else {
+                    expression += val;
+                    }
+                    inputBox.value = expression;
+                }
+
+                function operatorBtnPressed(op) {
+                if (expression === "" && op !== "-") {
+                    inputBox.value = "Press a number first";
+                    expression = "";
+                    setTimeout(() => inputBox.value = "0", 1000);
+                    return;
+                }
+
+                const lastChar = expression.slice(-1);
+
+                // Avoid multiple operators at the end (e.g. 5++ or 5+-)
+                if (["+", "-", "*", "/"].includes(lastChar)) {
+                    expression = expression.slice(0, -1); // remove last operator
+                }
+
+                expression += op;
+                inputBox.value = expression;
+                }
+
+
+
+                function btnACPressed() {
+                    expression = "";
+                    inputBox.value = "0";
+                }
+
+                function equalsBtnPressed() {
+                    if (!isValidExpression(expression)) {
+                        inputBox.value = "Invalid expression";
+                        expression = "";
+                        setTimeout(() => inputBox.value = "0", 1200);
+                        return;
+                    }
+
+                    try {
+                        const result = eval(expression);
+                        inputBox.value = result;
+                        expression = result.toString();
+
+                        inputBox.classList.add("result-animate");
+                        setTimeout(() => inputBox.classList.remove("result-animate"), 600);
+                    } catch {
+                        inputBox.value = "0";
+                        expression = "";
+                    }
+                    }
+
+                    // Helper to check balanced brackets
+                    function isValidExpression(expr) {
+                    let balance = 0;
+                    for (let ch of expr) {
+                        if (ch === '(') balance++;
+                        else if (ch === ')') balance--;
+                        if (balance < 0) return false;
+                    }
+                    return balance === 0;
+                    }
+
+
+                function backspacePressed() {
+                    expression = expression.slice(0, -1);
+                    inputBox.value = expression || "0";
+                }
+
+                function applyFunction(fn) {
+                    try {
+                    let val = parseFloat(expression || "0");
+                    let result;
+                    switch(fn) {
+                        case 'sqrt': result = Math.sqrt(val); break;
+                        case 'sin': result = Math.sin(val); break;
+                        case 'cos': result = Math.cos(val); break;
+                        case 'tan': result = Math.tan(val); break;
+                        case 'log': result = Math.log10(val); break;
+                        case 'ln': result = Math.log(val); break;
+                    }
+                    inputBox.value = result.toFixed(4);
+                    expression = result.toString();
+                    } catch {
+                    inputBox.value = "";
+                    expression = "";
+                    }
+                }
+
+                function toggleScientific(show) {
+                    document.getElementById("scientificRow").style.display = show ? "" : "none";
+                    document.getElementById("scientificRow2").style.display = show ? "" : "none";
+                }
+                
+
+                    try {
+                        const result = eval(expression);
+                        inputBox.value = result;
+                        expression = result.toString();
+
+                        // Animate display
+                        inputBox.classList.add("result-animate");
+                        setTimeout(() => inputBox.classList.remove("result-animate"), 600);
+                    } catch {
+                        inputBox.value = "0";
+                        expression = "";
+                    }
+                
+                function digitBtnPressed(val) {
+                if (inputBox.value === "0" || inputBox.value === "Error" || expression === "") {
+                    expression = val;
+                } else {
+                    expression += val;
+                }
+                inputBox.value = expression;
+                }
+                function handleButtonClick(btn) {
+                const val = btn.getAttribute('data-value');
+                digitBtnPressed(val);
+                }
+
+                </script>
+</body>
+</html>

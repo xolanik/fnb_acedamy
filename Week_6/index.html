@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Book</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/home.css" />
+ 
+</head>
+
+<body onload="fetchContacts()">
+<button id="backToTop" title="Back to Top">↑</button>
+ <header class="header-bar">
+  <div class="header-title">📇 Contact Book</div>
+  <input type="text" id="searchBox" placeholder="Search contacts..." />
+  <div class="controls">
+    
+    <button id="sortToggle" title="Sort A–Z">A–Z</button>
+    <button id="refresh" title="Refresh">🔄</button>
+    <button id="addContact" title="Add Contact">➕</button>
+    <button id="toggleDarkMode" title="Toggle Dark Mode">🌙</button>
+  </div>
+</header>
+
+
+
+  <div id="table">Contact loading...</div>
+
+  <script src="config.js"></script>
+  <script>
+  let contactData = [];
+let sortAZ = true;
+let visibleLimit = 5;
+
+document.getElementById("refresh").addEventListener('click', fetchContacts);
+document.getElementById("addContact").addEventListener('click', addContact);
+document.getElementById("searchBox").addEventListener('input', filterContacts);
+document.getElementById("sortToggle").addEventListener('click', toggleSort);
+
+function fetchContacts() {
+  fetch(rootPath + "controller/get-contacts/")
+    .then(res => res.json())
+    .then(data => {
+      contactData = data.filter(c => c.firstname && c.lastname && c.avatar); // hide incomplete ones
+      sortContacts(contactData);
+      displayOutput(contactData.slice(0, visibleLimit));
+      showViewMoreButton(contactData.length > visibleLimit);
+    });
+}
+
+function displayOutput(data) {
+  let output = '<div class="card-list">';
+  for (let contact of data) {
+    output += `
+      <div class="contact-card" onclick="editContact(${contact.id})">
+        <img src="${rootPath}controller/uploads/${contact.avatar}" class="contact-avatar" />
+        <div class="contact-info">
+          <div class="contact-name">${contact.firstname}</div>
+          <div class="contact-surname">${contact.lastname}</div>
+        </div>
+      </div>
+    `;
+  }
+  output += '</div>';
+
+  // Add "View More" button if needed
+  if (data.length < contactData.length) {
+    output += '<button id="viewMoreBtn">View More</button>';
+  }
+
+  document.getElementById("table").innerHTML = output;
+
+  const viewMoreBtn = document.getElementById("viewMoreBtn");
+  if (viewMoreBtn) {
+    viewMoreBtn.addEventListener('click', () => {
+      visibleLimit += 5;
+      displayOutput(contactData.slice(0, visibleLimit));
+    });
+  }
+}
+
+function filterContacts() {
+  visibleLimit = 5;
+  const val = document.getElementById("searchBox").value.toLowerCase();
+  const filtered = contactData.filter(c =>
+    (c.firstname && c.firstname.toLowerCase().includes(val)) ||
+    (c.lastname && c.lastname.toLowerCase().includes(val))
+  );
+  sortContacts(filtered);
+  displayOutput(filtered.slice(0, visibleLimit));
+  showViewMoreButton(filtered.length > visibleLimit);
+}
+
+function toggleSort() {
+  sortAZ = !sortAZ;
+  document.getElementById("sortToggle").textContent = sortAZ ? "Sort: A–Z" : "Sort: Z–A";
+  filterContacts();
+}
+
+function sortContacts(data) {
+  data.sort((a, b) => sortAZ
+    ? a.firstname.localeCompare(b.firstname)
+    : b.firstname.localeCompare(a.firstname));
+}
+
+function addContact() {
+  window.open("add-contact.html", "_self");
+}
+
+function editContact(id) {
+  window.open("edit-contact.html?id=" + id, "_self");
+}
+
+function showViewMoreButton(show) {
+  const btn = document.getElementById("viewMoreBtn");
+  if (btn) btn.style.display = show ? "block" : "none";
+}
+// Show/hide button on scroll
+window.onscroll = function () {
+  const btn = document.getElementById("backToTop");
+  if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+    btn.style.display = "block";
+  } else {
+    btn.style.display = "none";
+  }
+};
+
+// Scroll to top on click
+document.getElementById("backToTop").addEventListener("click", function () {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+const toggleDarkModeBtn = document.getElementById("toggleDarkMode");
+
+// Load from localStorage
+if (localStorage.getItem("darkMode") === "true") {
+  document.body.classList.add("dark-mode");
+  toggleDarkModeBtn.textContent = "☀️ Light Mode";
+}
+
+toggleDarkModeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  const isDark = document.body.classList.contains("dark-mode");
+  localStorage.setItem("darkMode", isDark);
+  toggleDarkModeBtn.textContent = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
+});
+
+</script>
+
+</body>
+</html>

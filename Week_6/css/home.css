@@ -1,0 +1,260 @@
+body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 16px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .button-bar {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+      background: #ffffff;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .button-bar button {
+      background-color: #007bff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+
+    .button-bar button:hover {
+      background-color: #0056b3;
+    }
+
+    #table {
+      padding: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    tr {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background-color: white;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    tr:hover {
+      transform: scale(1.02);
+    }
+
+    td {
+      padding: 6px;
+      flex: 1;
+    }
+
+    td img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    h5 {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+    }
+    .card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+}
+
+.contact-card {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.contact-card:hover {
+  transform: scale(1.02);
+}
+
+.contact-avatar {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 16px;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.contact-surname {
+  font-size: 14px;
+  color: #777;
+}
+/* App-like full-width sticky header */
+header {
+  background-color: #007bff;
+  color: white;
+  padding: 14px 16px;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  position: sticky;
+  top: 0;
+ 
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Control buttons inside header */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  margin-top: 4px;
+}
+
+/* Inputs inside header */
+.controls input {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+}
+
+/* Buttons styled for app feel */
+.controls button {
+  padding: 8px 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.15s;
+}
+
+.controls button:hover {
+  background-color: rgba(255, 255, 255, 0.35);
+  transform: scale(1.05);
+}
+
+.controls button:active {
+  background-color: rgba(255, 255, 255, 0.5);
+  transform: scale(0.95);
+}
+
+
+#viewMoreBtn {
+  display: block;
+  margin: 15px auto;
+  padding: 10px 20px;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#backToTop {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: opacity 0.3s ease;
+}
+
+#backToTop:hover {
+  background-color: #0056b3;
+}
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff !important;
+}
+
+body.dark-mode .contact-card {
+  background-color: #1e1e1e;
+  color: #ffffff !important;
+}
+
+
+body.dark-mode div {
+    
+    color: #ffffff !important;
+}
+body.dark-mode input,
+body.dark-mode button {
+  background-color: #2c2c2c;
+  color: #ffffff !important;
+  border: 1px solid #444;
+
+}
+
+body.dark-mode button:hover {
+  background-color: #3b3b3b;
+}
+
+body.dark-mode #backToTop {
+  background-color: #444;
+}
+#searchBox{
+    border-radius: 10px !important;
+    padding: 10px;
+    border-color: #ffffff;
+}
+    @media screen and (max-width: 600px) {
+     
+    }
